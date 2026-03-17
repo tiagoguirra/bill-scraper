@@ -20,24 +20,26 @@ npx playwright install chromium
 Crie o arquivo `.env` na raiz do projeto:
 
 ```env
-CPF_CNPJ=seu_cpf_ou_cnpj
-SENHA=sua_senha_saneago
-DOWNLOAD_DIR=~/Downloads/faturas
+SANEAGO_CPF_CNPJ=seu_cpf_ou_cnpj
+SANEAGO_SENHA=sua_senha
 
+EQUATORIAL_CPF=seu_cpf
 EQUATORIAL_UC=numero_da_unidade_consumidora
 EQUATORIAL_DATA_NASCIMENTO=DD/MM/AAAA
 
+DOWNLOAD_DIR=~/Downloads/faturas
 HEADLESS=true
 PORT=3000
 ```
 
 | Variável                      | Descrição                                                   | Obrigatório     |
 |-------------------------------|-------------------------------------------------------------|-----------------|
-| `CPF_CNPJ`                    | CPF ou CNPJ do titular                                      | Sim             |
-| `SENHA`                       | Senha do portal Saneago                                     | Sim             |
-| `DOWNLOAD_DIR`                | Pasta onde os PDFs serão salvos (padrão: `~/Downloads/faturas`) | Não         |
+| `SANEAGO_CPF_CNPJ`            | CPF ou CNPJ do titular (Saneago)                            | Sim             |
+| `SANEAGO_SENHA`               | Senha do portal Saneago                                     | Sim             |
+| `EQUATORIAL_CPF`              | CPF do titular (Equatorial)                                 | Para Equatorial |
 | `EQUATORIAL_UC`               | Número da Unidade Consumidora (Equatorial)                  | Para Equatorial |
 | `EQUATORIAL_DATA_NASCIMENTO`  | Data de nascimento no formato `DD/MM/AAAA` (Equatorial)    | Para Equatorial |
+| `DOWNLOAD_DIR`                | Pasta onde os PDFs serão salvos (padrão: `~/Downloads/faturas`) | Não         |
 | `HEADLESS`                    | Roda o navegador sem interface gráfica (padrão: `true`)     | Não             |
 | `PORT`                        | Porta da API (padrão: `3000`)                               | Não             |
 

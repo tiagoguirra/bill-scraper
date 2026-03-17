@@ -20,11 +20,16 @@ function resolveDir(raw: string | undefined, fallback: string): string {
 }
 
 export const config = {
-  CPF_CNPJ: required('CPF_CNPJ'),
-  SENHA: required('SENHA'),
+  saneago: {
+    cpfCnpj: required('SANEAGO_CPF_CNPJ'),
+    senha: required('SANEAGO_SENHA'),
+  },
+  equatorial: {
+    cpf: optional('EQUATORIAL_CPF'),
+    uc: optional('EQUATORIAL_UC'),
+    dataNascimento: optional('EQUATORIAL_DATA_NASCIMENTO'),
+  },
   DOWNLOAD_DIR: resolveDir(optional('DOWNLOAD_DIR'), path.join(os.homedir(), 'Downloads', 'faturas')),
-  EQUATORIAL_UC: optional('EQUATORIAL_UC'),
-  EQUATORIAL_DATA_NASCIMENTO: optional('EQUATORIAL_DATA_NASCIMENTO'),
   PORT: parseInt(process.env.PORT ?? '3000', 10),
   HEADLESS: process.env.HEADLESS !== 'false',
 };

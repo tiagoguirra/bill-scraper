@@ -7,7 +7,7 @@ export async function saneagoRoutes(app: FastifyInstance) {
   app.get('/saneago/list', async (_req, reply) => {
     const { browser, page } = await launchBrowser();
     try {
-      await login(page, config.CPF_CNPJ, config.SENHA);
+      await login(page, config.saneago.cpfCnpj, config.saneago.senha);
       await navegarParaSegundaVia(page);
       const faturas = await listarFaturas(page);
       return reply.send(faturas);
@@ -24,7 +24,7 @@ export async function saneagoRoutes(app: FastifyInstance) {
 
     const { browser, page } = await launchBrowser();
     try {
-      await login(page, config.CPF_CNPJ, config.SENHA);
+      await login(page, config.saneago.cpfCnpj, config.saneago.senha);
       await navegarParaSegundaVia(page);
       const faturas = await listarFaturas(page);
 
@@ -48,7 +48,7 @@ export async function saneagoRoutes(app: FastifyInstance) {
   app.get('/saneago/download-all', async (_req, reply) => {
     const { browser, page } = await launchBrowser();
     try {
-      await login(page, config.CPF_CNPJ, config.SENHA);
+      await login(page, config.saneago.cpfCnpj, config.saneago.senha);
       await navegarParaSegundaVia(page);
       const faturas = await listarFaturas(page);
 
