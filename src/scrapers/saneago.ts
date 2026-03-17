@@ -23,18 +23,19 @@ export async function login(page: Page, cpfCnpj: string, senha: string): Promise
   await page.goto(`${BASE_URL}/login`, { waitUntil: 'networkidle' });
 
   const btnAceitar = page.locator('ion-button:has-text("Aceitar")');
-  if (await btnAceitar.isVisible({ timeout: 5000 }).catch(() => false)) {
+  try {
+    await btnAceitar.waitFor({ state: 'visible', timeout: 5000 });
     await btnAceitar.click();
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(500);
+  } catch {
+    // botão não apareceu, segue sem aceitar
   }
 
   await page.fill('[name="cpfCnpj"], #cpfCnpj, input[placeholder*="CPF"], input[placeholder*="cnpj"]', cpfCnpj);
   await page.fill('[name="senha"], #senha, input[type="password"]', senha);
 
-  await Promise.all([
-    page.waitForNavigation({ waitUntil: 'networkidle' }),
-    page.click('button[type="submit"], input[type="submit"]'),
-  ]);
+  await page.click('button[type="submit"], input[type="submit"]');
+  await page.waitForURL(url => !url.pathname.includes('/login'), { waitUntil: 'networkidle', timeout: 15000 });
 }
 
 export async function navegarParaSegundaVia(page: Page): Promise<void> {
