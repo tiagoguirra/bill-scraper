@@ -1,7 +1,18 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyReply } from 'fastify';
 import fs from 'fs';
+import os from 'os';
 import { config } from '../config';
 import { launchBrowser, login, navegarParaSegundaVia, listarFaturas, selecionarFatura, gerarEBaixar } from '../scrapers/saneago';
+
+function sendPdf(reply: FastifyReply, destino: string) {
+  const filename = destino.split(/[\\/]/).pop()!;
+  const stream = fs.createReadStream(destino);
+  reply.raw.on('finish', () => fs.unlink(destino, () => {}));
+  return reply
+    .header('Content-Type', 'application/pdf')
+    .header('Content-Disposition', `attachment; filename="${filename}"`)
+    .send(stream);
+}
 
 export async function saneagoRoutes(app: FastifyInstance) {
   app.get('/saneago/list', async (_req, reply) => {
@@ -33,13 +44,8 @@ export async function saneagoRoutes(app: FastifyInstance) {
       }
 
       await selecionarFatura(page, idx);
-      const destino = await gerarEBaixar(page, config.DOWNLOAD_DIR);
-
-      const stream = fs.createReadStream(destino);
-      return reply
-        .header('Content-Type', 'application/pdf')
-        .header('Content-Disposition', `attachment; filename="${destino.split(/[\\/]/).pop()}"`)
-        .send(stream);
+      const destino = await gerarEBaixar(page, os.tmpdir());
+      return sendPdf(reply, destino);
     } finally {
       await browser.close();
     }
@@ -57,13 +63,8 @@ export async function saneagoRoutes(app: FastifyInstance) {
       }
 
       await page.locator('thead .p-checkbox-box').first().click();
-      const destino = await gerarEBaixar(page, config.DOWNLOAD_DIR);
-
-      const stream = fs.createReadStream(destino);
-      return reply
-        .header('Content-Type', 'application/pdf')
-        .header('Content-Disposition', `attachment; filename="${destino.split(/[\\/]/).pop()}"`)
-        .send(stream);
+      const destino = await gerarEBaixar(page, os.tmpdir());
+      return sendPdf(reply, destino);
     } finally {
       await browser.close();
     }
