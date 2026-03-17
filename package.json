@@ -1,0 +1,21 @@
+{
+  "name": "billextractor",
+  "version": "1.0.0",
+  "description": "API para extração de boletos de contas de consumo",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "ts-node src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "fastify": "^5.8.2",
+    "playwright": "^1.50.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
