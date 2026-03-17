@@ -19,6 +19,12 @@ shift || true
 api() {
   local url="$1"; shift || true
   local -a args=(curl -sS --max-time 120)
+  if [[ -n "${CF_CLIENT_ID:-}" ]]; then
+    args+=(-H "CF-Access-Client-Id: $CF_CLIENT_ID")
+  fi
+  if [[ -n "${CF_CLIENT_SECRET:-}" ]]; then
+    args+=(-H "CF-Access-Client-Secret: $CF_CLIENT_SECRET")
+  fi
 
   local tmp http_code
   tmp=$(mktemp)
@@ -41,7 +47,14 @@ api() {
 
 api_file() {
   local url="$1" out="$2"
-  curl -sS --max-time 120 -o "$out" "$url"
+  local -a args=(curl -sS --max-time 120)
+  if [[ -n "${CF_CLIENT_ID:-}" ]]; then
+    args+=(-H "CF-Access-Client-Id: $CF_CLIENT_ID")
+  fi
+  if [[ -n "${CF_CLIENT_SECRET:-}" ]]; then
+    args+=(-H "CF-Access-Client-Secret: $CF_CLIENT_SECRET")
+  fi
+  "${args[@]}" -o "$out" "$url"
 }
 
 json() {
@@ -81,9 +94,11 @@ Commands:
   saneago:download-all      Baixa todas as faturas Saneago em aberto
 
 Environment:
-  BILL_URL      URL da API (obrigatório)
-  DOWNLOAD_DIR  Diretório para salvar PDFs (padrão: diretório atual)
-  BILL_CONFIG   Caminho para o config (padrão: ./bill.conf)
+  BILL_URL          URL da API (obrigatório)
+  DOWNLOAD_DIR      Diretório para salvar PDFs (padrão: diretório atual)
+  BILL_CONFIG       Caminho para o config (padrão: ./bill.conf)
+  CF_CLIENT_ID      Cloudflare Access Client ID (opcional)
+  CF_CLIENT_SECRET  Cloudflare Access Client Secret (opcional)
 
 Examples:
   bill.sh saneago:list

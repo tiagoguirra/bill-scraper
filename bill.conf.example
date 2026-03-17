@@ -1,0 +1,5 @@
+BILL_URL=https://your-api-host.example.com
+DOWNLOAD_DIR=~/.openclaw/media/outbound/billscraper
+CF_CLIENT_ID=your-client-id.access
+CF_CLIENT_SECRET=your-client-secret
+SNAPSHOT_DIR=~/.openclaw/media/outbound/securitycam
