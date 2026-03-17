@@ -6,7 +6,12 @@
   "scripts": {
     "dev": "ts-node src/server.ts",
     "build": "tsc",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop bill-scraper",
+    "pm2:restart": "pm2 restart bill-scraper",
+    "pm2:logs": "pm2 logs bill-scraper",
+    "pm2:status": "pm2 status"
   },
   "dependencies": {
     "dotenv": "^16.4.5",
@@ -15,6 +20,7 @@
   },
   "devDependencies": {
     "@types/node": "^25.5.0",
+    "pm2": "^6.0.14",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
   }
